@@ -6,4 +6,10 @@ const initialState = {
   error: null,
 };
 
-const userStore = createSlice();
+const userStore = createSlice({
+  name: "user",
+  initialState,
+  reducers: {
+    si,
+  },
+});
