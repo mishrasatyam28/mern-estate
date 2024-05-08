@@ -87,12 +87,14 @@ function Profile() {
         <input
           type="text"
           id="username"
+          defaultValue={currentUser.username}
           placeholder="username"
           className="border p-3 rounded-lg"
         />
         <input
           type="email"
           id="email"
+          defaultValue={currentUser.email}
           placeholder="email"
           className="border p-3 rounded-lg"
         />
