@@ -10,6 +10,7 @@ import { app } from "../firebase";
 function CreateListing() {
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({ ImageUrls: [] });
+  const [imageUploadError, setImageUploadError] = useState(false);
   console.log(formData);
 
   const handleChange = (e) => {
@@ -17,17 +18,24 @@ function CreateListing() {
   };
 
   const handleImageSubmit = (e) => {
-    if (files.length > 0 && files.length < 7) {
+    if (files.length > 0 && files.length + formData.ImageUrls.length < 7) {
       const promises = [];
       for (let i = 0; i < files.length; i++) {
         promises.push(storeImage(files[i]));
       }
-      Promise.all(promises).then((urls) => {
-        setFormData({
-          ...formData,
-          ImageUrls: formData.ImageUrls.concat(urls),
+      Promise.all(promises)
+        .then((urls) => {
+          setFormData({
+            ...formData,
+            ImageUrls: formData.ImageUrls.concat(urls),
+          });
+          setImageUploadError(false);
+        })
+        .catch((err) => {
+          setImageUploadError("Image upload failed (2 mb max per image)");
         });
-      });
+    } else {
+      setImageUploadError("You can only upload 6 images per listing");
     }
   };
 
