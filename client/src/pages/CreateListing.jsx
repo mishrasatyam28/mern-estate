@@ -11,7 +11,6 @@ function CreateListing() {
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({ ImageUrls: [] });
   const [imageUploadError, setImageUploadError] = useState(false);
-  console.log(formData);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -62,6 +61,13 @@ function CreateListing() {
           });
         }
       );
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setFormData({
+      ...formData,
+      ImageUrls: formData.ImageUrls.filter((_, i) => i !== index),
     });
   };
 
@@ -230,6 +236,32 @@ function CreateListing() {
               Upload
             </button>
           </div>
+          <p className="text-red-700 text-sm">
+            {imageUploadError && imageUploadError}
+          </p>
+
+          {formData.ImageUrls.length > 0 &&
+            formData.ImageUrls.map((url, index) => (
+              <div
+                key={index}
+                className="flex justify-between p-3 border items-center"
+              >
+                <img
+                  src={url}
+                  alt="listing image"
+                  className="w-20 h-20 object-contain rounded-lg"
+                />
+
+                <button
+                  onClick={() => handleRemoveImage(index)}
+                  type="button"
+                  className="p-3 bg-red-700 text-white rounded-lg uppercase hover:opacity-80"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          {/* You can only upload 6 images per listing------->errrror--->6:00 */}
           <button className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
             Create Listing
           </button>
