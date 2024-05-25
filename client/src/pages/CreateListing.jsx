@@ -36,6 +36,7 @@ function CreateListing() {
       setUploading(true);
       setImageUploadError(false);
       const promises = [];
+
       for (let i = 0; i < files.length; i++) {
         promises.push(storeImage(files[i]));
       }
@@ -70,6 +71,7 @@ function CreateListing() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(`Upload is ${progress}% done`);
         },
         (error) => {
           reject(error);
@@ -145,12 +147,14 @@ function CreateListing() {
       if (data.success === false) {
         setError(data.message);
       }
+      console.log(data);
       navigate(`/listing/${data._id}`);
     } catch (error) {
       setError(error.message);
       setLoading(false);
     }
   };
+  console.log(formData);
 
   return (
     <main className="p-3 max-w-4xl mx-auto">
